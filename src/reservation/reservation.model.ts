@@ -1,14 +1,14 @@
 import {model, Schema} from 'mongoose';
 
 type ReservationType ={
-    bookingId: string;
+    bookId: string;
     userId: string;
     reservationDate: Date;
     returnDate: Date;
 }
 
 const ReservationSchema = new Schema<ReservationType>({
-    bookingId: {type: String, required: true},
+    bookId: {type: String, required: true},
     userId: {type: String, required: true},
     reservationDate: {type: Date, default: new Date()},
     returnDate: {type: Date, default: null}
