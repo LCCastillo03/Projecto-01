@@ -3,10 +3,8 @@ import express from "express";
 import { Request, Response } from "express";
 import cors from "cors";
 
-// ROUTES
 const SERVER_VERSION = "/api/";
 
-// FALLBACKS
 function routeNotFound(request: Request, response: Response) {
   response.status(404).json({
     message: "Route not found.",
