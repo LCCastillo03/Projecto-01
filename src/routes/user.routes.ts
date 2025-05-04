@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { createUser, loginUser, updateUser, disableUser } from "../user/user.controller";
-import { CreateUserType, UpdateUserType, LoginUserType } from "../types/user.types'";
+import { CreateUserType, UpdateUserType, LoginUserType } from "../types/user.types";
 import { UserModAuthMiddleware, UserDisableAuthMiddleware } from "../middleware/auth";
 
 const userRoutes = Router();

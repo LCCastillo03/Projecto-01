@@ -1,5 +1,5 @@
 import { BookModel, BookType } from "../models/book.model";
-import { UpdateBookType } from "./book.types";
+import { UpdateBookType } from "../types/book.types";
 
 async function UpdateBookAction(targetBookId: string, updateData: UpdateBookType): Promise<BookType> {
     const updatedBook = await BookModel.findByIdAndUpdate(targetBookId, updateData, {

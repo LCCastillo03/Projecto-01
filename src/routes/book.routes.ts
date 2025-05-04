@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import { createBook, updateBook, disableBook, readBooks, reserveBook, returnBook, readOneBook } from "./book.controller";
-import { BookQueryType, CreateBookType, UpdateBookType, ReserveBookType } from "./book.types";
+import { createBook, updateBook, disableBook, readBooks, reserveBook, returnBook, readOneBook } from "../book/book.controller";
+import { BookQueryType, CreateBookType, UpdateBookType, ReserveBookType } from "../types/book.types";
 
 const bookRoutes = Router();
 
