@@ -4,8 +4,8 @@ import updateUserAction from "./update.user.action";
 import disableUserAction from "./disable.user.action";
 import jwt from 'jsonwebtoken';
 import * as argon2 from "argon2";
-import { UserType } from "./user.model";
-import { CreateUserType, UpdateUserType } from "./user.types";
+import { UserType } from "../models/user.model";
+import { CreateUserType, UpdateUserType } from "../types/user.types";
 import { ReservationType } from "../reservation/reservation.model";
 import readReservationsAction from "../reservation/read.reservations.action";
 

@@ -1,4 +1,4 @@
-import { UserModel, UserType } from "./user.model";
+import { UserModel, UserType } from "../models/user.model";
 
 async function readUserAction(query: object): Promise<UserType> {
     const results = await UserModel.findOne(query) as UserType;

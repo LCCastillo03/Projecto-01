@@ -1,5 +1,5 @@
 import bookRoutes from "./book/book.routes";
-import userRoutes from "./user/user.routes";
+import userRoutes from "./routes/user.routes";
 import express from "express";
 import { Request, Response } from "express";
 import cors from "cors";

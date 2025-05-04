@@ -1,4 +1,4 @@
-import { BookModel, BookType } from "./book.model";
+import { BookModel, BookType } from "../models/book.model";
 import { CreateBookType } from "./book.types";
 
 async function CreateBookAction(bookData: CreateBookType): Promise<BookType> {

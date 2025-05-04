@@ -1,4 +1,4 @@
-import { BookModel, BookType } from "./book.model";
+import { BookModel, BookType } from "../models/book.model";
 import { UpdateBookType } from "./book.types";
 
 async function UpdateBookAction(targetBookId: string, updateData: UpdateBookType): Promise<BookType> {

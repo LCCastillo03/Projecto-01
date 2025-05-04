@@ -1,5 +1,5 @@
-import { UserModel, UserType } from "./user.model";
-import { CreateUserType } from "./user.types";
+import { UserModel, UserType } from "../models/user.model";
+import { CreateUserType } from "../types/user.types";
 import * as argon2 from "argon2";
 
 async function createUserAction(userData: CreateUserType): Promise<UserType> {

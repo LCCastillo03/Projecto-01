@@ -3,7 +3,7 @@ import ReadOneBookAction from "./read.one.books.action";
 import ReadBooksAction from "./read.books.action";
 import UpdateBookAction from "./update.book.action";
 import DisableBookAction from "./disable.book.action";
-import { BookType } from "./book.model";
+import { BookType } from "../models/book.model";
 import { CreateBookType, UpdateBookType, BookQueryType } from "./book.types";
 import SetReturnDateAction from "../reservation/set.return.date.action";
 import { ReservationType } from "../reservation/reservation.model";

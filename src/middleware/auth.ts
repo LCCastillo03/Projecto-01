@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { HeaderUserType } from "../user/user.types";
+import { HeaderUserType } from "../types/user.types";
 import checkEnabledUserAction from "../user/checkenabled.user.action";
 import { decode } from "jsonwebtoken";
 
