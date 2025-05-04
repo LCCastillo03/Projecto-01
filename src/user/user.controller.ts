@@ -32,24 +32,40 @@ async function createUser(userData: CreateUserType): Promise<UserType> {
  */
 async function loginUser(email: string, password: string): Promise<{token: string, user: UserType, reservationHistory: ReservationType[]}> {
     try {
+        console.log("1. Buscando usuario con email:", email);
         const user = await readUserAction({email: email});
+        console.log("2. Usuario encontrado:", user ? "Sí" : "No");
 
         if (!user) {
+            console.log("Error: Usuario no encontrado");
             throw new Error('Invalid credentials');
         }
 
-        const passwordValid = await argon2.verify(user.password, password);
+        console.log("3. Intentando verificar contraseña...");
+        let passwordValid;
+        try {
+            passwordValid = await argon2.verify(user.password, password);
+            console.log("4. Resultado de verificación:", passwordValid);
+        } catch (argonError) {
+            console.error("Error en la verificación de argon2:", argonError);
+            throw new Error('Password verification error');
+        }
+
         if (!passwordValid) {
+            console.log("Error: Contraseña incorrecta");
             throw new Error('Invalid credentials');
         }
 
+        console.log("5. Generando token JWT con secret:", process.env.JWT_SECRET ? "Definido" : "No definido");
         const token = jwt.sign(
             { _id: user._id, permissions: user.permissions },
             process.env.JWT_SECRET as string,
             { expiresIn: '1h' }
         );
         
+        console.log("6. Buscando historial de reservaciones");
         const reservationHistory = await readReservationsAction({userId: user._id});
+        console.log("7. Login completado con éxito");
 
         return {
             token: token,
@@ -57,10 +73,10 @@ async function loginUser(email: string, password: string): Promise<{token: strin
             reservationHistory: reservationHistory,
         };
     } catch (error: any) {
+        console.error("Error en loginUser:", error.message);
         throw new Error(`Login error: ${error.message}`);
     }
 }
-
 /**
  * Updates an existing user's data
  * @param targetUserId ID of the user to update

@@ -12,66 +12,67 @@ function decodeJwtValues(request: Request) {
     return jwtValues as HeaderUserType;
 }
 
-async function isSameUserOrHasPermission(request: Request, response: Response, next: NextFunction, permission: string) {
+// Helper function that doesn't directly return the Response object
+async function checkUserPermission(request: Request, response: Response, next: NextFunction, permission: string): Promise<boolean> {
     const user = decodeJwtValues(request);
     if (!user) {
-        return response.status(401).json({
+        response.status(401).json({
             message: "Not authorized."
-        })
+        });
+        return false;
     }
-    const targetUserId = request.params.userId;
     
     if (await checkEnabledUserAction(user._id)) {
-        if (user._id == targetUserId || user.permissions[permission]) {
-            return next(); 
+        const targetUserId = request.params.userId;
+        if (targetUserId && (user._id == targetUserId || user.permissions[permission])) {
+            return true;
+        } else if (!targetUserId && user.permissions[permission]) {
+            return true;
         }
     }
     
-    return response.status(401).json({ message: "Not authorized." });
+    response.status(401).json({ message: "Not authorized." });
+    return false;
 }
 
-async function hasPermission(request: Request, response: Response, next: NextFunction, permission: string) {
-    const user = decodeJwtValues(request);
-    if (!user) {
-        return response.status(401).json({
-            message: "Not authorized."
-        })
+// Updated middleware functions that return void
+export async function UserModAuthMiddleware(request: Request, response: Response, next: NextFunction): Promise<void> {
+    if (await checkUserPermission(request, response, next, "UPDATE-USERS")) {
+        next();
     }
+}
 
-    if (await checkEnabledUserAction(user._id)) {
-        if (user.permissions[permission]) {
-            return next(); 
-        }
+export async function UserDisableAuthMiddleware(request: Request, response: Response, next: NextFunction): Promise<void> {
+    if (await checkUserPermission(request, response, next, "DELETE-USERS")) {
+        next();
     }
-    
-    return response.status(401).json({ message: "Not authorized." });
 }
 
-export async function UserModAuthMiddleware(request: Request, response: Response, next: NextFunction) {
-    return await isSameUserOrHasPermission(request, response, next, "UPDATE-USERS");
+export async function BookCreateAuthMiddleware(request: Request, response: Response, next: NextFunction): Promise<void> {
+    if (await checkUserPermission(request, response, next, "CREATE-BOOKS")) {
+        next();
+    }
 }
 
-export async function UserDisableAuthMiddleware(request: Request, response: Response, next: NextFunction) {
-    return await isSameUserOrHasPermission(request, response, next, "DELETE-USERS");
-}
-
-export async function BookCreateAuthMiddleware(request: Request, response: Response, next: NextFunction) {
-    return await hasPermission(request, response, next, "CREATE-BOOKS");
-}
-
-export async function BookModAuthMiddleware(request: Request, response: Response, next: NextFunction) {
+export async function BookModAuthMiddleware(request: Request, response: Response, next: NextFunction): Promise<void> {
     if (request.body.reserved == undefined) {
-        return await hasPermission(request, response, next, "UPDATE-BOOKS");
+        if (await checkUserPermission(request, response, next, "UPDATE-BOOKS")) {
+            next();
+        }
+        return;
     }
+    
     const user = decodeJwtValues(request);
     if (user) {
         request.body._id = user._id;
-        return next();
+        next();
+    } else {
+        response.status(401).json({ message: "Not authorized." });
     }
-    
-    return response.status(401).json({ message: "Not authorized." });
 }
 
-export async function BookDisableAuthMiddleware(request: Request, response: Response, next: NextFunction) {
-    return await hasPermission(request, response, next, "DELETE-BOOKS");
+export async function BookDisableAuthMiddleware(request: Request, response: Response, next: NextFunction): Promise<void> {
+    if (await checkUserPermission(request, response, next, "DELETE-BOOKS")) {
+        next();
+    }
 }
