@@ -74,9 +74,9 @@ async function DisableUser(request: Request<{userId: string}>, response: Respons
     }
 }
 
-userRoutes.get("/login", LoginUser);                                            // READ
-userRoutes.post("/create", CreateUser);                                         // CREATE
-userRoutes.put("/:userId/update", UserModAuthMiddleware, UpdateUser);           // UPDATE
-userRoutes.delete("/:userId/delete", UserDisableAuthMiddleware, DisableUser);   // DELETE
+userRoutes.get("/login", LoginUser);                                            
+userRoutes.post("/create", CreateUser);                                         
+userRoutes.put("/:userId/update", UserModAuthMiddleware, UpdateUser);           
+userRoutes.delete("/:userId/delete", UserDisableAuthMiddleware, DisableUser);   
 
 export default userRoutes;

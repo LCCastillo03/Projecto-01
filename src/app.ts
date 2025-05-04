@@ -13,7 +13,6 @@ function routeNotFound(request: Request, response: Response) {
 }
 
 export default function createApp() {
-  // MIDDLEWARES
   const app = express();
 
   app.use(cors());
