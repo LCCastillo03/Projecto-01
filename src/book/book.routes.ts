@@ -2,10 +2,8 @@ import { Router, Request, Response } from "express";
 import { createBook, updateBook, disableBook, readBooks, reserveBook, returnBook, readOneBook } from "./book.controller";
 import { BookQueryType, CreateBookType, UpdateBookType, ReserveBookType } from "./book.types";
 
-// INIT ROUTES
 const bookRoutes = Router();
 
-// DECLARE ENDPOINT FUNCTIONS
 async function CreateBook(request: Request<any, any, CreateBookType>, response: Response) {
     try {
         const book = await createBook(request.body);
@@ -92,11 +90,9 @@ async function DisableBook(request: Request<{bookId: string}>, response: Respons
     }
 }
 
-// DECLARE ENDPOINTS
-bookRoutes.get("/search", SearchBooks);                                         // READ
-bookRoutes.post("/create", CreateBook);               // CREATE
-bookRoutes.put("/:bookId/update", UpdateBook);           // UPDATE
-bookRoutes.delete("/:bookId/delete", DisableBook);   // DELETE
+bookRoutes.get("/search", SearchBooks);                                     
+bookRoutes.post("/create", CreateBook);               
+bookRoutes.put("/:bookId/update", UpdateBook);           
+bookRoutes.delete("/:bookId/delete", DisableBook);   
 
-// EXPORT ROUTES
 export default bookRoutes;
