@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { createBook, updateBook, disableBook, readBooks, reserveBook, returnBook, readOneBook } from "../book/book.controller";
 import { BookQueryType, CreateBookType, UpdateBookType, ReserveBookType } from "../types/book.types";
+import { BookCreateAuthMiddleware, BookModAuthMiddleware, BookDisableAuthMiddleware } from "../middleware/auth";
 
 const bookRoutes = Router();
 
@@ -91,8 +92,8 @@ async function DisableBook(request: Request<{bookId: string}>, response: Respons
 }
 
 bookRoutes.get("/search", SearchBooks);                                     
-bookRoutes.post("/create", CreateBook);               
-bookRoutes.put("/:bookId/update", UpdateBook);           
-bookRoutes.delete("/:bookId/delete", DisableBook);   
+bookRoutes.post("/create", BookCreateAuthMiddleware, CreateBook);               
+bookRoutes.put("/:bookId/update",BookModAuthMiddleware, UpdateBook);           
+bookRoutes.delete("/:bookId/delete", BookDisableAuthMiddleware, DisableBook);   
 
 export default bookRoutes;

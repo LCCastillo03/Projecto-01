@@ -64,7 +64,7 @@ async function loginUser(email: string, password: string): Promise<{token: strin
         );
         
         console.log("6. Buscando historial de reservaciones");
-        const reservationHistory = await readReservationsAction({userId: user._id});
+        const reservationHistory = await readReservationsAction({userId: user.idNum});
         console.log("7. Login completado con éxito");
 
         return {

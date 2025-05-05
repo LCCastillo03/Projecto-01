@@ -4,11 +4,14 @@ import checkEnabledUserAction from "../user/checkenabled.user.action";
 import { decode } from "jsonwebtoken";
 
 function decodeJwtValues(request: Request) {
-    if (request.headers.authorization === undefined) {
+    const authHeader = request.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return null;
     }
 
-    const jwtValues = decode(request.headers.authorization);
+    const token = authHeader.split(" ")[1]; 
+    const jwtValues = decode(token); 
+
     return jwtValues as HeaderUserType;
 }
 
@@ -17,7 +20,7 @@ async function checkUserPermission(request: Request, response: Response, next: N
     const user = decodeJwtValues(request);
     if (!user) {
         response.status(401).json({
-            message: "Not authorized."
+            message: "Not authorized. Failed"
         });
         return false;
     }
