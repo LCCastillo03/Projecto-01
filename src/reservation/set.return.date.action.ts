@@ -1,4 +1,4 @@
-import { ReservationModel, ReservationType } from "./reservation.model";
+import { ReservationModel, ReservationType } from "../models/reservation.model";
 
 /**
  * Updates the return date for an active reservation of a specific book and user.

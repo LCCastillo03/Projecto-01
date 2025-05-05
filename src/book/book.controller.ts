@@ -6,7 +6,7 @@ import DisableBookAction from "./disable.book.action";
 import { BookType } from "../models/book.model";
 import { CreateBookType, UpdateBookType, BookQueryType } from "../types/book.types";
 import SetReturnDateAction from "../reservation/set.return.date.action";
-import { ReservationType } from "../reservation/reservation.model";
+import { ReservationType } from "../models/reservation.model";
 import CreateReservationAction from "../reservation/create.reservation.action";
 import ReadReservationsAction from "../reservation/read.reservations.action";
 
